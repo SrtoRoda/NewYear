@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz Año Nuevo 2025</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<!-- CSS -->
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        height: 100vh;
+        background-color: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        overflow: hidden;
+        position: relative;  /* Establecemos la posición relativa */
+    }
+
+    #fireworks {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .animated-text {
+        position: absolute;
+        font-family: 'Arial', sans-serif;
+        font-size: 4rem;
+        color: #ffffff;  /* Color blanco */
+        font-weight: bold;
+        text-align: center;
+        z-index: 2;
+        text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FF8C00, 0 0 40px #FF8C00;
+        top: 45%; /* Colocamos el texto al centro verticalmente */
+        transform: translateY(-50%); /* Ajuste para centrarlo correctamente */
+        animation: textAnimation 3s ease-in-out infinite;
+    }
+
+    @keyframes textAnimation {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+    }
+
+    .firework {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0;
+        box-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00, 0 0 15px #ffcc00;
+    }
+
+    @keyframes fireworkAnimation {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(3);
+            opacity: 0;
+        }
+    }
+
+    .writing-text {
+        position: absolute;
+        top: calc(50% + 50px); /* 50% del alto + 50px para separarlo de "Feliz Año Nuevo" */
+        font-family: 'Arial', sans-serif;
+        font-size: 2rem;
+        color: #ffffff;
+        text-align: center;
+        z-index: 3;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 0;
+        animation: typingAnimation 5s steps(30) 1s forwards, blinkCursor 0.75s step-end infinite;
+    }
+
+    @keyframes typingAnimation {
+        0% {
+            width: 0;
+        }
+        100% {
+            width: 100%;
+        }
+    }
+
+    @keyframes blinkCursor {
+        50% {
+            border-color: transparent;
+        }
+    }
+</style>
+<!-- Html -->
+<body>
+  <div id="fireworks"></div>
+  <div id="text" class="animated-text">Feliz Año Nuevo 2025</div>
+  <div id="writing-text" class="writing-text"></div>
+
+  <script src="script.js"></script>
+</body>
+
+<!-- JavaScript -->
+<script>
+    const fireworksContainer = document.getElementById("fireworks");
+
+    function randomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    function createFirework() {
+        const firework = document.createElement("div");
+        firework.classList.add("firework");
+        
+        const size = Math.random() * 3 + 2;
+        firework.style.width = `${size}px`;
+        firework.style.height = `${size}px`;
+        firework.style.top = `${Math.random() * 100}%`;
+        firework.style.left = `${Math.random() * 100}%`;
+
+        firework.style.backgroundColor = randomColor();
+        firework.style.animation = `fireworkAnimation ${Math.random() * 1 + 1}s linear infinite`;
+
+        fireworksContainer.appendChild(firework);
+
+        setTimeout(() => {
+            firework.remove();
+        }, 2000);
+    }
+
+    function generateFireworks() {
+        setInterval(createFirework, 100);
+    }
+
+    generateFireworks();
+
+    const textElement = document.getElementById("writing-text");
+    const text = "Que tus sueños se cumplan";
+    let index = 0;
+
+    function typeText() {
+        if (index < text.length) {
+            textElement.textContent += text[index];
+            index++;
+            setTimeout(typeText, 150);
+        }
+    }
+
+    window.onload = () => {
+        typeText();
+    };
+</script>
+</html>
